@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const ListContacts = (props) => {
     return(
@@ -12,11 +13,24 @@ const ListContacts = (props) => {
                 <p>{contact.name}</p>
                <p>{contact.handle}</p>
                </div>
-               <button className='contact-remove'>Remove</button>
+               <button 
+                onClick={() => props.onDeleteContact(contact)}
+                className='contact-remove'>
+                    Remove
+                 </button>
             </li>
             ))}
          </ol>
 
     )
 }
+
+
+// PropTypes is a great way to validate intended data types in our React app.
+// Type checking our data with PropTypes helps us identify these bugs during development to ensure a smooth experience for our app's users.
+ListContacts.propTypes = {
+    contacts: PropTypes.array.isRequired,
+    onDeleteContact: PropTypes.func.isRequired,
+  }
+  
 export default ListContacts
