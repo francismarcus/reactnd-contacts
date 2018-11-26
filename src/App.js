@@ -38,8 +38,6 @@ removeContact = (contact) => {
   }))
 }
 
-
-
   render() {
     return (
       <div>

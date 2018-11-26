@@ -6,29 +6,32 @@ class ListContacts extends Component {
         contacts: PropTypes.array.isRequired,
         onDeleteContact: PropTypes.func.isRequired,
     }
-
     state = {
         query: ''    
     }
-
     updateQuery = (query) => {
         this.setState(() => ({
             query: query.trim()
         }))
     }
 
-    render() {
+    clearQuery = () => {
+        this.updateQuery('')
+    }
 
-        const { query } = this.setState
+    render() {
+        const { query } = this.state
         const { contacts, onDeleteContact  } = this.props
 
+        const showingContacts = query === ''
+            ? contacts                          
+            : contacts.filter((c) => (
+                c.name.toLowerCase().includes(query.toLowerCase())
+              ))
 
 
         return (
             <div className='list-contacts'>
-
-
-
             <div className='list-contacts-top'>
 
                 <input 
@@ -36,13 +39,19 @@ class ListContacts extends Component {
                     type='text'
                     placeholder='Search Contacts'
                     value={query}
-                    onChange={(event)=> this.updateQuery(event.target.value)}
-                />
+                    onChange={(event)=> this.updateQuery(event.target.value)}/>
             </div>
 
+            {showingContacts.length !== contacts.length && (
+                <div className ='showing-contacts'>
+                    <span> Now showing {showingContacts.length} of {contacts.length}</span>
+                    <button onClick={this.clearQuery}>Show all</button>
+                </div>
+            )}
+
             <ol className = 'contact-list' >
-            {contacts.map((contact) => (
-                <li className='contact-list-item'>
+            {showingContacts.map((contact) => (
+                <li key={contacts.id} className='contact-list-item'>
                     <div className='contact-avatar'
                          style={{background: `url(${contact.avatarURL})`}}>
                     </div>
@@ -63,8 +72,5 @@ class ListContacts extends Component {
     }
 }
 
-// PropTypes is a great way to validate intended data types in our React app.
-// Type checking our data with PropTypes helps us identify these bugs during development to ensure a smooth experience for our app's users.
 
-  
 export default ListContacts
