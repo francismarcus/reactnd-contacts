@@ -22,6 +22,8 @@ removeContact = (contact) => {
       return c.id !== contact.id
     })
   }))
+
+  ContactsAPI.remove(contact)
 }
 
   render() {
