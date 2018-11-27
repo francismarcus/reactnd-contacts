@@ -7,8 +7,9 @@ class ListContacts extends Component {
         onDeleteContact: PropTypes.func.isRequired,
     }
     state = {
-        query: ''    
+        query: ''
     }
+
     updateQuery = (query) => {
         this.setState(() => ({
             query: query.trim()
@@ -21,7 +22,7 @@ class ListContacts extends Component {
 
     render() {
         const { query } = this.state
-        const { contacts, onDeleteContact  } = this.props
+        const { contacts, onDeleteContact, onNavigate  } = this.props
 
         const showingContacts = query === ''
             ? contacts                          
@@ -40,6 +41,12 @@ class ListContacts extends Component {
                     placeholder='Search Contacts'
                     value={query}
                     onChange={(event)=> this.updateQuery(event.target.value)}/>
+                    <a 
+                        href='#create' 
+                        onClick={onNavigate}
+                        className='add-contact'>
+                        Add Contact
+                    </a>
             </div>
 
             {showingContacts.length !== contacts.length && (
